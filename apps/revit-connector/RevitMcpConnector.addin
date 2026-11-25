@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Revit MCP Thin Connector</Name>
+    <Assembly>RevitMcpConnector\RevitMcpConnector.dll</Assembly>
+    <AddInId>9F4E2B61-7C1D-4D4E-9A55-7657F10C0001</AddInId>
+    <FullClassName>RevitMcpConnector.App</FullClassName>
+    <VendorId>ATGT</VendorId>
+    <VendorDescription>Hosted Revit MCP Thin Connector</VendorDescription>
+  </AddIn>
+</RevitAddIns>

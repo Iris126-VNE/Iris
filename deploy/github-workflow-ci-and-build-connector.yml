@@ -1,0 +1,63 @@
+name: CI & Build Revit Connector
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  hub-ci:
+    name: Build & E2E Test Hub Server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install & Build
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
+      - name: Run End-to-End Smoke Test
+        run: |
+          node apps/hub-server/dist/index.js &
+          HUB_PID=$!
+          sleep 2
+          node --experimental-strip-types apps/hub-server/scripts/mock-connector.ts &
+          MOCK_PID=$!
+          sleep 2
+          node --experimental-strip-types apps/hub-server/scripts/e2e-test.ts
+          TEST_CODE=$?
+          kill $MOCK_PID $HUB_PID || true
+          exit $TEST_CODE
+
+  build-revit-connector:
+    name: Build Revit Connector (Revit ${{ matrix.revit }})
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        revit: ["2024", "2025"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Build RevitMcpConnector for Revit ${{ matrix.revit }}
+        run: |
+          dotnet build apps/revit-connector/RevitMcpConnector.csproj -c Release -p:RevitVersion=${{ matrix.revit }} -o dist-connector/RevitMcpConnector
+          Copy-Item apps/revit-connector/RevitMcpConnector.addin dist-connector/RevitMcpConnector.addin
+
+      - name: Upload Connector Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RevitMcpConnector-Revit${{ matrix.revit }}
+          path: dist-connector/
+          retention-days: 30

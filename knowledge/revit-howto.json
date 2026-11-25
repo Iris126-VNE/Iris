@@ -1,0 +1,20 @@
+[
+  {
+    "ref": "howto-safe-mutation",
+    "kind": "revit-howto",
+    "title": "Quy trình sửa đổi mô hình Revit an toàn (Inspect -> DryRun -> Execute -> Verify)",
+    "regionProfile": "tcvn_qcvn",
+    "relatedTools": ["element_inspect", "parameter_batch_set_safe", "batch_execute_safe"],
+    "summary": "Luôn đọc danh sách instanceId/documentKey trước, đọc schema bằng revit_tools, chạy thử dryRun nếu cần rồi mới thực thi và kiểm tra lại.",
+    "body": "1. Gọi revit_list_instances để lấy instanceId (channelBound=true) và documentKey (64-hex).\n2. Gọi revit_tools {tool} để lấy đúng schema.\n3. Gọi revit_call với dryRun=true trước khi sửa hàng loạt.\n4. Gọi revit_call thực thi kèm idempotencyKey để tránh chạy lặp khi rớt mạng.\n5. Gọi lại tool đọc (element_inspect / level_list) để xác minh kết quả."
+  },
+  {
+    "ref": "rule-qcvn41-bien-bao",
+    "kind": "standard-reference",
+    "title": "QCVN 41:2019/BGTVT - Nguyên tắc bố trí biển báo hiệu đường bộ",
+    "regionProfile": "tcvn_qcvn",
+    "relatedTools": ["family_place_point_safe", "parameter_batch_set_safe"],
+    "summary": "Quy tắc cơ bản về vị trí, khoảng cách mép đường và chiều cao lắp đặt biển báo theo QCVN 41:2019/BGTVT.",
+    "body": "- Biển báo đặt bên phải theo chiều đi (trường hợp cần thiết có thể đặt bổ sung bên trái hoặc trên giá long môn/cần vươn).\n- Mép ngoài của biển theo phương ngang cách mép phần xe chạy tối thiểu 0.5m và tối đa 1.7m (ngoài khu đông dân cư) hoặc từ 0.5m trong đô thị nếu có vỉa hè.\n- Khi đặt Family biển báo trong Revit bằng family_place_point_safe, truyền tọa độ theo đơn vị mét (xMeter, yMeter, zMeter) và điền mã hiệu biển báo vào Comments hoặc tham biến chuyên ngành."
+  }
+]

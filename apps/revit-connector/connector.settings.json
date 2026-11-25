@@ -1,0 +1,5 @@
+{
+  "hubWsUrl": "wss://your-domain.com/ws/connector",
+  "apiKey": "dev-secret-key",
+  "machineAlias": "WORKSTATION-01"
+}

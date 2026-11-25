@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: revit-mcp-hub
+    runtime: docker
+    dockerfilePath: ./deploy/Dockerfile
+    dockerContext: .
+    region: singapore
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: "8765"
+      - key: API_KEYS
+        sync: false
+      - key: HEARTBEAT_TIMEOUT_MS
+        value: "45000"
+      - key: CALL_TIMEOUT_MS
+        value: "25000"

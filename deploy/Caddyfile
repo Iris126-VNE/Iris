@@ -1,0 +1,4 @@
+# Replace with your real domain pointing to your VPS IP
+mcp.your-domain.com {
+    reverse_proxy hub-server:8765
+}

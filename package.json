@@ -1,0 +1,19 @@
+{
+  "name": "revit-mcp-platform",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/hub-server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev:hub": "npm run dev --workspace=@revit-mcp/hub-server",
+    "start:hub": "npm run start --workspace=@revit-mcp/hub-server",
+    "mock:connector": "npm run mock:connector --workspace=@revit-mcp/hub-server",
+    "test:e2e": "npm run test:e2e --workspace=@revit-mcp/hub-server"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
