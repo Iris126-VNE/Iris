@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -11,7 +12,7 @@ public sealed class HubWebSocketClient : IDisposable
     private readonly int _revitYear;
     private readonly ExternalEventDispatcher _dispatcher;
     private readonly CancellationTokenSource _cts = new();
-    private readonly string _instanceId = $"revit-{Environment.MachineName.ToLowerInvariant()}-{Environment.ProcessId}";
+    private readonly string _instanceId = $"revit-{Environment.MachineName.ToLowerInvariant()}-{Process.GetCurrentProcess().Id}";
     private ClientWebSocket? _ws;
 
     public HubWebSocketClient(ConnectorSettings settings, int revitYear, ExternalEventDispatcher dispatcher)

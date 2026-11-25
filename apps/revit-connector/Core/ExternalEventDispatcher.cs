@@ -8,12 +8,23 @@ using Autodesk.Revit.UI.Events;
 
 namespace RevitMcpConnector.Core;
 
-public sealed record RevitCallCommand(
-    string CallId,
-    string Tool,
-    string? DocumentKey,
-    bool DryRun,
-    string PayloadJson);
+public sealed class RevitCallCommand
+{
+    public string CallId { get; }
+    public string Tool { get; }
+    public string? DocumentKey { get; }
+    public bool DryRun { get; }
+    public string PayloadJson { get; }
+
+    public RevitCallCommand(string callId, string tool, string? documentKey, bool dryRun, string payloadJson)
+    {
+        CallId = callId;
+        Tool = tool;
+        DocumentKey = documentKey;
+        DryRun = dryRun;
+        PayloadJson = payloadJson;
+    }
+}
 
 public sealed class ExternalEventDispatcher : IExternalEventHandler, IDisposable
 {
@@ -25,14 +36,14 @@ public sealed class ExternalEventDispatcher : IExternalEventHandler, IDisposable
     private string? _blockedDialogId;
     private bool _suppressDialogs;
 
-    public string[] SupportedTools { get; } =
-    [
+    public string[] SupportedTools { get; } = new[]
+    {
         "session_get_health",
         "document_list_open",
         "level_list",
         "element_inspect",
         "parameter_batch_set_safe"
-    ];
+    };
 
     public ExternalEventDispatcher(UIControlledApplication uiControlledApp, int revitYear)
     {
