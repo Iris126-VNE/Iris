@@ -75,4 +75,20 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: RevitMcpConnector-Rev
+          name: RevitMcpConnector-Revit2024
+          path: dist-app/connectors/revit2024
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: RevitMcpConnector-Revit2025
+          path: dist-app/connectors/revit2025
+
+      - name: Publish IrisControlCenter (self-contained win-x64)
+        run: dotnet publish apps/control-center/IrisControlCenter.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o dist-app
+
+      - name: Upload IrisControlCenter Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: IrisControlCenter-win-x64
+          path: dist-app/
+          retention-days: 30
